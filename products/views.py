@@ -1,5 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 from .models import Products
+from .forms import ProductForm
 
 # Create your views here.
 def product_list(request):
@@ -7,9 +9,20 @@ def product_list(request):
     context={'products':products}
     return render(request, 'products/product_list.html', context)
 
-
+@login_required
 def product_create(request):
-    pass
+    if request.method=='POST':
+        form=ProductForm(request.POST)
+        if form.is_valid():
+            product=form.save(commit=False)
+            product.author=request.user
+            product.save()
+            return redirect('products:list')
+    else:
+        form=ProductForm()
+    
+    context={'form':form}
+    return render(request, 'products/product_create.html', context)
 
 
 def product_detail(request, pk):

@@ -3,5 +3,11 @@
 
 {% block content %}
     <h1>product_list</h1>
+    
+    {% for product in products %}
+        <p>title: {{product.title}}</p>
+        <p>description: {{product.description}}</p>
+    {% endfor %}
+        
 {% endblock content %}
     
