@@ -7,6 +7,6 @@ class Product(models.Model):
     description=models.CharField(max_length=300)
     author=models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='products')
     wish=models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='wish')
-    hits=models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='hits')
+    hits=models.PositiveIntegerField(default=0)
     image=models.ImageField(upload_to='images/', blank=True)
     created_at=models.DateTimeField(auto_now_add=True)

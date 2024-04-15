@@ -28,6 +28,8 @@ def product_create(request):
 
 def product_detail(request, pk):
     product=get_object_or_404(Product, pk=pk)
+    product.hits+=1
+    product.save()
     context={'product':product}
     return render(request, 'products/product_detail.html', context)
 
@@ -58,10 +60,13 @@ def product_delete(request, pk):
             product.delete()
     return redirect('products:list')
 
-
+@require_POST
 def product_wish(request, pk):
-    pass
-
-
-def product_hits(request, pk):
-    pass
+    if request.user.is_authenticated:
+        product=get_object_or_404(Product, pk=pk)
+        if product.wish.filter(pk=request.user.pk).exists():
+            product.wish.remove(request.user)
+        else:
+            product.wish.add(request.user)
+        return redirect('products:detail')
+    return redirect('accounts:login')
