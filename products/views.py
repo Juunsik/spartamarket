@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Products
 from .forms import ProductForm
@@ -26,7 +26,9 @@ def product_create(request):
 
 
 def product_detail(request, pk):
-    pass
+    product=get_object_or_404(Products, pk=pk)
+    context={'product':product}
+    return render(request, 'products/product_detail.html', context)
 
 
 def product_update(request, pk):
