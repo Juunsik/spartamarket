@@ -6,10 +6,18 @@
     
     <h5>{{product.title}}</h5>
     <h6>{{product.description}}</h6>
+    <h6>{{product.hits}}</h6>
+    
+    
+    {% if user.is_authenticated %}     
+        {% if product.author == request.user %}    
+            <div>
+                <a href="{% url 'products:update' product.pk %}">수정하기</a>
+                <a href="{% url 'products:delete' product.pk %}">삭제하기</a>
+            </div>
+        {% endif %}
+    {% endif %}
         
-    <div>
-        <a href="{% url 'products:update' product.pk %}">수정하기</a>
-        <a href="{% url 'products:delete' product.pk %}">삭제하기</a>
-    </div>
+        
 {% endblock content %}
     
