@@ -1,0 +1,25 @@
+<nav id="navbar-example2" class="navbar bg-body-tertiary px-3 mb-3">
+    <a class="navbar-brand" href="{% url 'products:list' %}">Sparta_Market</a>
+    <ul class="nav nav-pills">
+        
+        {% if user.is_authenticated %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'products:create' %}">새 상품 등록</a>
+            </li>
+            <li class="nav-item">
+                <form action="{% url 'accounts:logout' %}" method='POST'>
+                    {% csrf_token %}
+                    <button class="nav-link" type='submit'>LogOut</button>
+                </form>
+            </li>
+        {% else %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'accounts:login' %}">Login</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'accounts:signup' %}">SignUp</a>
+            </li>
+        {% endif %}
+            
+    </ul>
+  </nav>

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+    <div>
+        <h1>물건을 삭제하시겠습니까?</h1>
+        <form action="{% url 'products:delete' product.pk %}" method='POST'>
+            {% csrf_token %}
+            <button type='submit'>삭제</button>
+        </form>
+        <button><a href="{% url 'products:detail' product.pk %}">취소</a></button>
+    </div>
+{% endblock content %}
+    
