@@ -382,3 +382,6 @@ $RECYCLE.BIN/
 poetry.lock
 pyproject.toml
 migrations
+
+# media
+media

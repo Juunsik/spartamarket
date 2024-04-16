@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
+from django.core.paginator import Paginator
 from .models import Product
 from .forms import ProductForm
 
@@ -8,14 +9,19 @@ from .forms import ProductForm
 # Create your views here.
 def product_list(request):
     products = Product.objects.all()
-    context = {"products": products}
+    paginator = Paginator(products, 9)
+    current_page = request.GET.get("page")
+    if current_page is None:
+        current_page = 1
+    page = paginator.page(current_page)
+    context = {"page": page}
     return render(request, "products/product_list.html", context)
 
 
 @login_required
 def product_create(request):
     if request.method == "POST":
-        form = ProductForm(request.POST)
+        form = ProductForm(request.POST, request.FILES)
         if form.is_valid():
             product = form.save(commit=False)
             product.author = request.user
