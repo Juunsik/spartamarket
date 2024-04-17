@@ -5,17 +5,28 @@
 
     <div>
         <h2>username : {{ member.username }}</h2>
+        <h3>팔로워 수 : {{member.follow.all.count}}</h3>
 
-        {% comment %} {% if request.user != member %}
-            <form action="{% url "users:follow" member.pk %}" method="POST">
+        {% if request.user != member %}
+            <form action="{% url 'accounts:follow' member.pk %}" method="POST">
                 {% csrf_token %}
-                {% if request.user in member.followers.all %}
+                {% if request.user in member.follow.all %}
                     <input type="submit" value="언팔로우">
                 {% else %}
                     <input type="submit" value="팔로우">
                 {% endif %}
             </form>
-        {% endif %}         {% endcomment %}
+        {% endif %}
+
+        <h3>{{member.username}}님이 등록한 상품</h3>
+        {% for product in products %}
+            <div>
+                {{product.title}}
+            </div>
+        {% endfor %}
+
+        <h3>{{member.username}}님이 찜한 상품</h3>
+
     </div>
 
     <a href="{% url 'products:list' %}">홈으로 돌아가기</a>

@@ -11,10 +11,11 @@
                 <h2>{{product.title}}</h2>
                 <div class='d-flex align-items-center justify-content-between'>
                     <div>{{product.hits}}</div>
+                    <div>{{product.author.follow.count}}</div>
                     <span>{{product.created_at|date:'Y.m.d'}}</span>
                 </div>
                 
-                <a href="{% url 'accounts:profile' product.author.pk %}">
+                <a href="{% url 'accounts:profile' product.author.username %}">
                     <div class='bg-secondary-subtle'>
                         <div class='fs-2'>{{product.author}}</div>
                     </div>
