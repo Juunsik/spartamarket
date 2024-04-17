@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class='mx-auto justify-content-center'>
+        <div class='d-flex justify-content-center'>
+            <article>
+                <div class='d-flex justify-content-center'>
+                    <img class='width:100% object-fit-cover' src="{{product.image.url}}">
+                </div>
+                <h2>{{product.title}}</h2>
+                <form action="{% url 'products:wish' product.pk %}" method='POST'>
+                    {% csrf_token %}
+                    
+                    {% if request.user in product.wish.all %}
+                        <button type='submit'>찜 취소하기</button>
+                    {% else %}
+                        <button type='submit'>찜하기</button>
+                    {% endif %}
+                        
+                </form>
+                <div class='d-flex align-items-center justify-content-between'>
+                    <div>조회수 : {{product.hits}}</div>
+                    <div>팔로우 수 : {{product.author.follow.count}}</div>
+                    <span>{{product.created_at|date:'Y.m.d'}}</span>
+                </div>
+                
+                <a href="{% url 'accounts:profile' product.author.username %}">
+                    <div class='bg-secondary-subtle'>
+                        <div class='fs-2'>{{product.author}}</div>
+                    </div>
+                </a>
+
+                
+                <h6>{{product.description|linebreaksbr}}</h6>
+
+            </article>
+            
+        </div>
+    </div>
+
+
+    
+    {% if user.is_authenticated %}     
+        {% if product.author == request.user %}    
+            <div>
+                <a href="{% url 'products:update' product.pk %}">수정하기</a>
+                <a href="{% url 'products:delete' product.pk %}">삭제하기</a>
+            </div>
+        {% endif %}
+    {% endif %}
+        
+        
+{% endblock content %}
+    

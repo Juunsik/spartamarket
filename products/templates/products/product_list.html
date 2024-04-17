@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+    
+    <div class="row justify-content-center mb-5">
+        <img src="{% static 'img/banner.jpg' %}">
+    </div>
+    
+    <div class='mx-auto w-75'>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for product in page %}
+                <div class="col d-flex justify-content-center mb-3">
+                    <div class="card h-100 w-75">
+                        <a href="{% url 'products:detail' product.pk %}">
+                            <img src="{{ product.image.url }}" class="card-img-top" >
+                            <div class="card-body">
+                                <h5 class="card-title">{{product.title}}</h5>
+                                <h6 class="card-text">조회수: {{product.hits}}</h6>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="paging d-flex mx-auto justify-content-center align-middle">
+        {% if page.has_previous %}
+            <a href="?page=1" class="first">처음</a>
+            <a href="?page={{page.previous_page_number}}" class="prev">이전</a>
+        {% endif %}
+            <span class="page">
+                <p>{{page.number}}
+                of
+                {{page.paginator.num_pages}}</p>
+            </span>
+        {% if page.has_next %}
+            <a href="?page={{page.next_page_number}}" class="next">다음 </a>
+            <a href="?page={{page.paginator.num_pages}}" class="last">마지막</a>
+        {% endif %}
+    </div>
+    
+        
+{% endblock content %}
+    

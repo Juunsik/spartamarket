@@ -5,8 +5,10 @@ from django.contrib.auth import (
     get_user_model,
 )
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods, require_POST
 from .forms import CustomUserCreationForm
+from products.models import Product
 
 
 # Create your views here.
@@ -17,7 +19,7 @@ def signup(request):
         if form.is_valid():
             user = form.save()
             auth_login(request, user)
-            return redirect("profile")
+            return redirect("profile", user.username)
     else:
         form = CustomUserCreationForm()
     context = {"form": form}
@@ -27,11 +29,10 @@ def signup(request):
 @require_http_methods(["GET", "POST"])
 def login(request):
     if request.method == "POST":
-        form = AuthenticationForm(request.POST)
+        form = AuthenticationForm(data=request.POST)
         if form.is_valid():
             auth_login(request, form.get_user())
-            next_url = request.GET.get("next") or "index"  # 메인 페이지: 추후 생성 예정
-            return redirect(next_url)
+            return redirect('products:list')
     else:
         form = AuthenticationForm()
     context = {"form": form}
@@ -42,7 +43,7 @@ def login(request):
 def logout(request):
     if request.user.is_authenticated:
         auth_logout(request)
-    return redirect("index")  # 메인 페이지: 추후 생성 예정
+    return redirect("products:list")
 
 
 def delete(request):
@@ -57,9 +58,29 @@ def change_password(request):
     pass
 
 
+@login_required
 def profile(request, username):
     member = get_object_or_404(get_user_model(), username=username)
+    products=Product.objects.filter(author=member.pk)
+    wishs=Product.objects.filter(wish=request.user)
+
     context = {
-        "memeber": member,
+        "member": member,
+        'products':products,
+        'wishs':wishs,
     }
     return render(request, "accounts/profile.html", context)
+
+
+@login_required
+@require_POST
+def follow(request, pk):
+    if request.user.is_authenticated:
+        member = get_object_or_404(get_user_model(), pk=pk)
+        if member != request.user:
+            if member.follow.filter(pk=request.user.pk).exists():
+                member.follow.remove(request.user)
+            else:
+                member.follow.add(request.user)
+        return redirect("accounts:profile", username=member.username)
+    return redirect("accounts:login")
