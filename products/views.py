@@ -86,5 +86,5 @@ def product_wish(request, pk):
             product.wish.remove(request.user)
         else:
             product.wish.add(request.user)
-        return redirect("products:detail")
+        return redirect("products:detail", product.pk)
     return redirect("accounts:login")

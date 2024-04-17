@@ -9,9 +9,19 @@
                     <img class='width:100% object-fit-cover' src="{{product.image.url}}">
                 </div>
                 <h2>{{product.title}}</h2>
+                <form action="{% url 'products:wish' product.pk %}" method='POST'>
+                    {% csrf_token %}
+                    
+                    {% if request.user in product.wish.all %}
+                        <button type='submit'>찜 취소하기</button>
+                    {% else %}
+                        <button type='submit'>찜하기</button>
+                    {% endif %}
+                        
+                </form>
                 <div class='d-flex align-items-center justify-content-between'>
-                    <div>{{product.hits}}</div>
-                    <div>{{product.author.follow.count}}</div>
+                    <div>조회수 : {{product.hits}}</div>
+                    <div>팔로우 수 : {{product.author.follow.count}}</div>
                     <span>{{product.created_at|date:'Y.m.d'}}</span>
                 </div>
                 
