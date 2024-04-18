@@ -8,7 +8,7 @@ from .forms import ProductForm
 
 # Create your views here.
 def product_list(request):
-    products = Product.objects.all()
+    products = Product.objects.all().order_by('-created_at')
     paginator = Paginator(products, 9)
     current_page = request.GET.get("page")
     if current_page is None:
@@ -47,7 +47,7 @@ def product_update(request, pk):
     product = get_object_or_404(Product, pk=pk)
     if product.author == request.user:
         if request.method == "POST":
-            form = ProductForm(request.POST, instance=product)
+            form = ProductForm(request.POST, request.FILES, instance=product)
             if form.is_valid():
                 product = form.save()
                 return redirect("products:detail", product.pk)
