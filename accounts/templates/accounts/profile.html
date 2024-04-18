@@ -28,6 +28,13 @@
         {% endfor %}
 
         <h3>{{member.username}}님이 찜한 상품</h3>
+        
+        {% for wish in wishs %}
+            <div>
+                {{wish.title}}
+            </div>
+        {% endfor %}
+            
 
     </div>
 
