@@ -385,3 +385,6 @@ migrations
 
 # media
 media
+
+# node
+node_modules
