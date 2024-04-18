@@ -15,7 +15,11 @@
                 <div class="col d-flex justify-content-center mb-3">
                     <div class="card h-100 w-75">
                         <a href="{% url 'products:detail' product.pk %}">
-                            <img src="{{ product.image.url }}" class="card-img-top" >
+                            <div class='ratio ratio-1x1'>
+                                <img src="{{ product.image.url }}" class="card-img-top object-fit-contain overflow-hidden">
+                            </div>
+
+
                             <div class="card-body">
                                     <h5 class="card-title">{{product.title}}</h5>
                                 <div class='d-flex justify-content-end'>
