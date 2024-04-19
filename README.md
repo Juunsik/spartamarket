@@ -48,10 +48,16 @@ Django를 사용하여 스파르타 마켓의 기본적이 기능을 구현하�
 
 
 ## ERD
+![erd](https://github.com/Juunsik/spartamarket/blob/main/Task_image/erd.png)
 
 ## 화면 구성
 - 메인 페이지
+  ![main1](https://github.com/Juunsik/spartamarket/blob/main/Task_image/Task_main_1.png)
+  ![main2](https://github.com/Juunsik/spartamarket/blob/main/Task_image/Task_main_2.png)
 
-
+- 상세 페이지
+  ![detail1](https://github.com/Juunsik/spartamarket/blob/main/Task_image/Task_detail_1.png)
+  ![detail2](https://github.com/Juunsik/spartamarket/blob/main/Task_image/Task_detail_2.png)
+  
 - 프로필 페이지
-
+  ![profile](https://github.com/Juunsik/spartamarket/blob/main/Task_image/Task_profile.png)
