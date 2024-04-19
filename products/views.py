@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
+from django.db.models import Count
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.core.paginator import Paginator
@@ -9,8 +10,12 @@ from .forms import ProductForm
 
 # Create your views here.
 def product_list(request):
-    products = Product.objects.all().order_by('-created_at')
-    paginator = Paginator(products, 9)
+    sort=request.GET.get('sort')
+    if sort=='likes':
+        products=Product.objects.annotate(wish_count=Count('wish')).order_by('-wish_count','-created_at')
+    else:
+        products = Product.objects.all().order_by('-created_at')
+    paginator = Paginator(products, 6)
     current_page = request.GET.get("page")
     if current_page is None:
         current_page = 1

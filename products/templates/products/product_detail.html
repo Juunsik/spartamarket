@@ -12,9 +12,12 @@
 
                 <div class='h4 pb-2 pt-2 mt-1 mb-4 text-danger border-bottom border-top border-dark-subtle'>
                     <a href="{% url 'accounts:profile' product.author.username %}">
-                        <div class='d-flex justify-content-between py-3'>
-                            <div class='ms-3 fs-5'>{{product.author}}</div>
-                            <div class='my-auto me-3 fs-6'>followers : {{product.author.follow.count}}</div>
+                        <div class='d-flex justify-content-between py-3 hstack gap-3'>
+                            <div class='w-50 d-flex'>
+                                <img src="{{product.author.image.url}}" class="ms-2 text-center ratio ratio-1x1 w-25 rounded-circle object-fit-cover overflow-hidden">
+                                <div class='ms-2 fs-5 my-auto'>{{product.author}}</div>
+                            </div>
+                            <div class='my-auto me-3 fs-6 ms-auto'>followers : {{product.author.follow.count}}</div>
                                 
                         </div>
                     </a>
@@ -51,7 +54,7 @@
                 
                 <h6>{{product.description|linebreaksbr}}</h6>
 
-                <p class='fs-6'>관심: {{product.wish.all.count}}</p>
+                <p class='fs-6'>찜수: {{product.wish.all.count}}</p>
 
             </div>
             
