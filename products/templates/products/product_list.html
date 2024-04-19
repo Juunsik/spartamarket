@@ -5,8 +5,20 @@
 
 {% block content %}
     
-    <div class="row justify-content-center mb-5">
+    <div class="mx-auto w-75 mt-2 row justify-content-center mb-5">
         <img src="{% static 'img/banner.jpg' %}">
+    </div>
+
+    <div class='mb-5'>
+        <form action="{% url 'products:list' %}" method='GET'>
+            <div class='d-flex justify-content-center'>
+                <select name="sort" id="sort" class='form-select w-50'>
+                    <option value="recently" id='recently'>최신순</option>
+                    <option value="likes" id='likes'>인기순</option>
+                </select>
+                <button class="btn btn-primary" type="submit">정렬</button>
+            </div>
+        </form>
     </div>
     
     <div class='mx-auto w-75'>
@@ -21,13 +33,13 @@
 
 
                             <div class="card-body">
-                                    <h5 class="card-title">{{product.title}}</h5>
+                                    <h6 class="card-title fw-bolder">{{product.title}}</h6>
                                 <div class='d-flex justify-content-end mb-1'>
-                                    <span>{{product.price|intcomma}}원</span>
+                                    <p class='my-auto'>{{product.price|intcomma}}원</p>
                                 </div>
                                 <div class='d-flex justify-content-between'>
-                                    <h6 class="card-text my-auto">조회수: {{product.hits}}</h6>
-                                    <span>관심: {{product.wish.all.count}}</span>
+                                    <p class="card-text my-auto">조회수: {{product.hits}}</p>
+                                    <p class='my-auto'>찜수: {{product.wish.all.count}}</p>
                                 </div>
                             </div>
                         </a>
@@ -37,7 +49,7 @@
         </div>
     </div>
 
-    <div class="paging d-flex mx-auto my-auto justify-content-center align-middle">
+    <div class="paging d-flex mx-auto my-auto justify-content-center align-middle mb-5">
         {% if page.has_previous %}
             <!--<a href="?page=1" class="first">처음</a>-->
             <a href="?page={{page.previous_page_number}}" class="my-auto prev"><i class="bi bi-caret-left-square"></i></a>
