@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.core.paginator import Paginator
@@ -86,5 +87,5 @@ def product_wish(request, pk):
             product.wish.remove(request.user)
         else:
             product.wish.add(request.user)
-        return redirect("products:detail", product.pk)
+        return redirect(reverse_lazy("products:detail", kwargs={"pk": product.pk}))
     return redirect("accounts:login")

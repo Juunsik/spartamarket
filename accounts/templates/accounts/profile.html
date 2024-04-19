@@ -1,44 +1,97 @@
 {% extends 'base.html' %}
+{% load humanize %}
 
 {% block content %}
-    <h1>{{ member.username }}의 프로필 페이지</h1>
+    <div class='w-50 mx-auto'>
+        <div>
+            <div class='d-flex justify-content-center mx-auto mt-5'>
+                <div class='w-50'>
+                    <img src="{{member.image.url}}" class="d-flex justify-content-center mx-auto text-center ratio ratio-1x1 w-50 rounded-circle object-fit-cover overflow-hidden">
+                    <div class='text-center'>
+                        <h5>{{member.username}}</h5>
+                    </div>
+                </div>
+                <div class='w-25 align-self-center text-center'>
+                    <h5 class='align-middle'>등록 상품</h5>
+                    <h5>{{products.all.count}}</h5>
+                </div>
+                <div class='w-25 align-self-center text-center'>
+                    <h5>팔로워</h5>
+                    <h5>{{member.follow.all.count}}</h5>
+                </div>
+                <div class='w-25 align-self-center text-center'>
+                    <h5>팔로잉</h5>
+                    <h5>{{member.follows.all.count}}</h5>
+                </div>
+            </div>
+            <div class='follow_btn_date d-flex justify-content-around'>
+                <div class='follow_btn'>
+                    {% if request.user != member %}
+                        <form action="{% url 'accounts:follow' member.pk %}" method="POST">
+                            {% csrf_token %}
+                            {% if request.user in member.follow.all %}
+                                <input class="btn btn-outline-danger" type="submit" value="언팔로우">
+                            {% else %}
+                                <input class="btn btn-outline-primary" type="submit" value="팔로우">
+                            {% endif %}
+                        </form>
+                    {% endif %}
+                </div>
+                <div>
+                    <p class='my-auto'>가입일 : {{member.date_joined|date:'Y.m.d'}}</p>
+                </div>
+            </div>
+        </div>
 
-    <div>
-        <h2>username : {{ member.username }}</h2>
-        <h3>팔로워 수 : {{member.follow.all.count}}</h3>
-        <h3>팔로우 수 : {{member.follows.all.count}}</h3>
-        <h3>가입일 : {{member.date_joined|date:'Y.m.d'}}</h3>
-
-        {% if request.user != member %}
-            <form action="{% url 'accounts:follow' member.pk %}" method="POST">
-                {% csrf_token %}
-                {% if request.user in member.follow.all %}
-                    <input type="submit" value="언팔로우">
-                {% else %}
-                    <input type="submit" value="팔로우">
-                {% endif %}
-            </form>
+        
+        {% if products %}
+            <h3 class='text-center my-3 pt-3 border-top'>{{member.username}}님이 등록한 상품</h3>
+            <div class="row row-cols-1 row-cols-md-3 g-4 mb-3">
+                {% for product in products %}
+                    <div class="col d-flex justify-content-center mb-3">
+                        <div class="card h-100 w-75">
+                            <a href="{% url 'products:detail' product.pk %}">
+                                <div class='ratio ratio-1x1'>
+                                    <img src="{{ product.image.url }}" class="card-img-top object-fit-contain overflow-hidden">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">{{product.title}}</h5>
+                                    <div class='d-flex justify-content-end mb-1'>
+                                        <span>{{product.price|intcomma}}원</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
         {% endif %}
 
-        <h3>{{member.username}}님이 등록한 상품</h3>
-        {% for product in products %}
-            <div>
-                {{product.title}}
-            </div>
-        {% endfor %}
-
-        <h3>{{member.username}}님이 찜한 상품</h3>
         
-        {% for wish in wishs %}
-            <div>
-                {{wish.title}}
+        {% if wishs %}
+            <h3 class='text-center my-3 pt-3 border-top'>{{member.username}}님이 찜한 상품</h3>
+            <div class="row row-cols-1 row-cols-md-3 g-4 mb-3">
+                {% for wish in wishs %}
+                    <div class="col d-flex justify-content-center mb-3">
+                        <div class="card h-100 w-75">
+                            <a href="{% url 'products:detail' wish.pk %}">
+                                <div class='ratio ratio-1x1'>
+                                    <img src="{{ wish.image.url }}" class="card-img-top object-fit-contain overflow-hidden">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">{{wish.title}}</h5>
+                                    <div class='d-flex justify-content-end mb-1'>
+                                        <span>{{wish.price|intcomma}}원</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
             </div>
-        {% endfor %}
+        {% endif %}
             
-
     </div>
-
-    <a href="{% url 'products:list' %}">홈으로 돌아가기</a>
 
 {% endblock content %}
 

@@ -15,11 +15,11 @@ from products.models import Product
 @require_http_methods(["GET", "POST"])
 def signup(request):
     if request.method == "POST":
-        form = CustomUserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST, request.FILES)
         if form.is_valid():
             user = form.save()
             auth_login(request, user)
-            return redirect("profile", user.username)
+            return redirect("accounts:profile", user.username)
     else:
         form = CustomUserCreationForm()
     context = {"form": form}
