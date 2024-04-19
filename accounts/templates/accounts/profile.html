@@ -68,28 +68,31 @@
         {% endif %}
 
         
-        {% if wishs %}
-            <h3 class='text-center my-3 pt-3 border-top'>{{member.username}}님이 찜한 상품</h3>
-            <div class="row row-cols-1 row-cols-md-3 g-4 mb-3">
-                {% for wish in wishs %}
-                    <div class="col d-flex justify-content-center mb-3">
-                        <div class="card h-100 w-75">
-                            <a href="{% url 'products:detail' wish.pk %}">
-                                <div class='ratio ratio-1x1'>
-                                    <img src="{{ wish.image.url }}" class="card-img-top object-fit-contain overflow-hidden">
-                                </div>
-                                <div class="card-body">
-                                    <h6 class="card-title">{{wish.title}}</h6>
-                                    <div class='d-flex justify-content-end mb-1'>
-                                        <p>{{wish.price|intcomma}}원</p>
+        {% if request.user == member %}   
+            {% if wishs %}
+                <h3 class='text-center my-3 pt-3 border-top'>{{member.username}}님이 찜한 상품</h3>
+                <div class="row row-cols-1 row-cols-md-3 g-4 mb-3">
+                    {% for wish in wishs %}
+                        <div class="col d-flex justify-content-center mb-3">
+                            <div class="card h-100 w-75">
+                                <a href="{% url 'products:detail' wish.pk %}">
+                                    <div class='ratio ratio-1x1'>
+                                        <img src="{{ wish.image.url }}" class="card-img-top object-fit-contain overflow-hidden">
                                     </div>
-                                </div>
-                            </a>
+                                    <div class="card-body">
+                                        <h6 class="card-title">{{wish.title}}</h6>
+                                        <div class='d-flex justify-content-end mb-1'>
+                                            <p>{{wish.price|intcomma}}원</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
                         </div>
-                    </div>
-                {% endfor %}
-            </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
         {% endif %}
+            
             
     </div>
 
