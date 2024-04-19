@@ -19,7 +19,6 @@ Django를 사용하여 스파르타 마켓의 기본적이 기능을 구현하�
 - Django
 - SQLite3
 - bootstrap
-- Git
 
 ## 주요 기능
 1. 필수 기능
