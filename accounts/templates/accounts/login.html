@@ -1,12 +1,24 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>로그인</h1>
-
-<form action="{% url 'accounts:login' %}" method="POST">
-    {% csrf_token %}
-    {{ form.as_p}}
-    <input type="submit" value="로그인">
-</form>
+<div class='d-flex mx-auto justify-content-center w-25 mt-5 border border-2'>
+    <div>
+        <div class='d-flex my-3 justify-content-center'>
+            <h1>Log in</h1>
+        </div>
+        <form action="{% url 'accounts:login' %}" method='POST'>
+            {% csrf_token %}
+                
+            {% for field in form %}
+                <div class='mb-2'>
+                    {{field}}
+                </div>
+            {% endfor %}
+            <div class='d-flex justify-content-center'>
+                <button type='submit' class="btn btn-outline-success my-2">로그인</button>
+            </div>
+        </form>
+    </div>
+</div>
 
 {% endblock content %}
