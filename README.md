@@ -60,3 +60,6 @@ Django를 사용하여 스파르타 마켓의 기본적이 기능을 구현하�
   
 - 프로필 페이지
   ![profile](https://github.com/Juunsik/spartamarket/blob/main/Task_image/profile.png)
+
+## 실행영상
+![video](https://github.com/Juunsik/spartamarket/blob/main/Task_image/Document-Chrome2024-04-1918-59-48-ezgif.com-video-to-gif-converter.gif)
