@@ -60,4 +60,4 @@ Django를 사용하여 스파르타 마켓의 기본적이 기능을 구현하�
   ![detail2](https://github.com/Juunsik/spartamarket/blob/main/Task_image/Task_detail_2.png)
   
 - 프로필 페이지
-  ![profile](https://github.com/Juunsik/spartamarket/blob/main/Task_image/Task_profile.png)
+  ![profile](https://github.com/Juunsik/spartamarket/blob/main/Task_image/profile.png)
