@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+    <div class='mx-auto justify-content-center my-5'>
+        <div class='d-flex justify-content-center'>
+            <div style='width:40%'>
+                <div class='d-flex justify-content-center mb-3'>
+                    <img class='object-fit-cover' src="{{product.image.url}}" style='width:100%'>
+                </div>
+
+                <div class='h4 pb-2 pt-2 mt-1 mb-4 text-danger border-bottom border-top border-dark-subtle'>
+                    <a href="{% url 'accounts:profile' product.author.username %}">
+                        <div class='d-flex justify-content-between py-3 hstack gap-3'>
+                            <div class='w-50 d-flex'>
+                                <img src="{{product.author.image.url}}" class="ms-2 text-center ratio ratio-1x1 w-25 rounded-circle object-fit-cover overflow-hidden">
+                                <div class='ms-2 fs-5 my-auto'>{{product.author}}</div>
+                            </div>
+                            <div class='my-auto me-3 fs-6 ms-auto'>followers : {{product.author.follow.count}}</div>
+                                
+                        </div>
+                    </a>
+                </div>
+
+                <div class='d-flex justify-content-between mb-3'>
+                    <div class='d-flex my-auto'>
+                        <h2 class='fw-bold'>{{product.title}}</h2>
+                    </div>
+                    <div class='my-auto'>
+                        {% if product.author != request.user %}
+                            <form action="{% url 'products:wish' product.pk %}" method='POST'>
+                                {% csrf_token %}
+                                
+                                {% if request.user in product.wish.all %}
+                                    <button type='submit' class="btn btn-danger">찜 취소하기</button>
+                                {% else %}
+                                    <button type='submit' class="btn btn-primary">찜하기</button>
+                                {% endif %}
+                                    
+                            </form>
+                        {% endif %}
+                    </div>
+                </div>
+                    
+                <div class='d-flex align-items-center justify-content-between mb-1'>
+                    <div>조회수 : {{product.hits}}</div>
+                    <span>{{product.created_at|date:'Y.m.d'}}</span>
+                </div>
+
+                <div class='mb-3'>
+                    <span class='fw-semibold'>{{product.price|intcomma}}원</span>
+                </div>
+                
+                <h6>{{product.description|linebreaksbr}}</h6>
+
+                <p class='fs-6'>찜수: {{product.wish.all.count}}</p>
+
+            </div>
+            
+        </div>
+        {% if user.is_authenticated %}     
+            {% if product.author == request.user %} 
+            <div class='mx-auto mt-3' style='width:40%'>
+                <div class='d-flex justify-content-end'>
+                    <div class="btn btn-outline-secondary me-2">
+                        <a href="{% url 'products:update' product.pk %}"><i class="bi bi-pencil-square"></i> 수정</a>
+                    </div>
+                    <div class="btn btn-outline-danger">
+                        <a href="{% url 'products:delete' product.pk %}"><i class="bi bi-trash3"></i> 삭제</a>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        {% endif %}
+    </div>
+
+
+    
+        
+        
+{% endblock content %}
+    
