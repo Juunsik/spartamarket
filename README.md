@@ -15,6 +15,12 @@ Django를 사용하여 스파르타 마켓의 기본적이 기능을 구현하�
 - Language: Python
 - Github
 
+## Packages
+- python = "^3.10"
+- django = "^5.0.4"
+- django-dotenv = "^1.4.2"
+- pillow = "^10.3.0"
+
 ## 기술 스택
 - Django
 - SQLite3
